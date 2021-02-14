@@ -1,0 +1,36 @@
+version: '3'
+
+services:
+  db_{project_name}:
+    container_name: ${CONTAINER_PROJECT_NAME_DATABASE}
+    image: mysql:5.7.22
+    volumes:
+      - db_data:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE={project_name}
+    networks:
+      default:
+        ipv4_address: ${MYSQL_IP_DRUPAL_PROJECT_VOLUME}
+
+  drupal_vitor_grillo:
+    container_name: ${CONTAINER_PROJECT_NAME}
+    build:
+      context: ${CONTAINER_PROJECT_VOLUME}
+      dockerfile: dev.Dockerfile
+    depends_on:
+      - db_{project_name}
+    ports:
+      - '8080:80'
+    volumes:
+      - ${CONTAINER_PROJECT_VOLUME}/docroot:/var/www/html
+    networks:
+      default:
+        ipv4_address: ${WEB_IP}
+
+networks:
+  default:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: ${NETWORK_CONFIG_SUBNET}
