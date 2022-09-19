@@ -8,7 +8,7 @@
 
 **1.** To possible start using this docker4drupal local environment instance, update the Makefile:
 
-- Update all the variables created on makefile with string {PRODUCT_NAME} inside the docker-compose.yml
+- Update all the variables created inside the docker-compose.yml
 
 ### RUN Docker
 
